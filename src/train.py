@@ -28,15 +28,15 @@ def train_models():
     with mlflow.start_run(run_name="Autoencoder"):
         ae = Autoencoder()
         ae.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss='mse')
-    
-    # Callback to save weights
-    ae_checkpoint = tf.keras.callbacks.ModelCheckpoint(
-        filepath=os.path.join(models_dir, 'ae.weights.h5'),
-        save_weights_only=True,
-        save_best_only=True,
-        monitor='val_loss'
-    )
-    
+        
+        # Callback to save weights
+        ae_checkpoint = tf.keras.callbacks.ModelCheckpoint(
+            filepath=os.path.join(models_dir, 'ae.weights.h5'),
+            save_weights_only=True,
+            save_best_only=True,
+            monitor='val_loss'
+        )
+        
         ae_history = ae.fit(
             train_ds,
             epochs=10,
@@ -50,14 +50,14 @@ def train_models():
     with mlflow.start_run(run_name="VariationalAutoencoder"):
         vae = VariationalAutoencoder()
         vae.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3))
-    
-    vae_checkpoint = tf.keras.callbacks.ModelCheckpoint(
-        filepath=os.path.join(models_dir, 'vae.weights.h5'),
-        save_weights_only=True,
-        save_best_only=True,
-        monitor='val_loss'
-    )
-    
+        
+        vae_checkpoint = tf.keras.callbacks.ModelCheckpoint(
+            filepath=os.path.join(models_dir, 'vae.weights.h5'),
+            save_weights_only=True,
+            save_best_only=True,
+            monitor='val_loss'
+        )
+        
         vae_history = vae.fit(
             train_ds,
             epochs=10,
