@@ -98,7 +98,7 @@ class VariationalAutoencoder(tf.keras.Model):
             # Reconstruction loss (MSE)
             reconstruction_loss = tf.reduce_mean(
                 tf.reduce_sum(
-                    tf.keras.losses.mean_squared_error(x, reconstruction), axis=(1, 2)
+                    tf.reduce_mean(tf.square(x - reconstruction), axis=-1), axis=(1, 2)
                 )
             )
             # KL divergence loss
@@ -130,7 +130,7 @@ class VariationalAutoencoder(tf.keras.Model):
         
         reconstruction_loss = tf.reduce_mean(
             tf.reduce_sum(
-                tf.keras.losses.mean_squared_error(x, reconstruction), axis=(1, 2)
+                tf.reduce_mean(tf.square(x - reconstruction), axis=-1), axis=(1, 2)
             )
         )
         kl_loss = -0.5 * (1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var))
