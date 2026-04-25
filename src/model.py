@@ -7,7 +7,7 @@ class Autoencoder(tf.keras.Model):
         
         # Encoder
         self.encoder = tf.keras.Sequential([
-            tf.keras.layers.InputLayer(input_shape=input_shape),
+            tf.keras.layers.InputLayer(shape=input_shape),
             tf.keras.layers.Conv2D(32, 3, activation='relu', strides=2, padding='same'),
             tf.keras.layers.Conv2D(64, 3, activation='relu', strides=2, padding='same'),
             tf.keras.layers.Flatten(),
@@ -18,7 +18,7 @@ class Autoencoder(tf.keras.Model):
         # Calculate shape before flatten to reshape back
         # Input 64x64 -> conv1(strides 2) -> 32x32 -> conv2(strides 2) -> 16x16
         self.decoder = tf.keras.Sequential([
-            tf.keras.layers.InputLayer(input_shape=(latent_dim,)),
+            tf.keras.layers.InputLayer(shape=(latent_dim,)),
             tf.keras.layers.Dense(16 * 16 * 64, activation='relu'),
             tf.keras.layers.Reshape((16, 16, 64)),
             tf.keras.layers.Conv2DTranspose(64, 3, activation='relu', strides=2, padding='same'),

@@ -21,13 +21,18 @@ This project contains the implementation of an Autoencoder (AE) and a Variationa
            HeadCT/
    ```
 
-## Training the Models
+## Running the Pipeline
 
-Run the training script to train both the AE and VAE models:
+You can run the full end-to-end pipeline (which trains both models, tracks metrics with MLFlow, and automatically generates visualization plots) using:
+```bash
+python run_pipeline.py
+```
+This will read the data, construct a `tf.data.Dataset`, train the models, save the resulting best weights inside the `models/` folder, and save evaluation figures in the `plots/` folder.
+
+If you only want to train the models without visualizing, you can run:
 ```bash
 python src/train.py
 ```
-This will read the data, construct a `tf.data.Dataset`, train the models, and save the resulting best weights inside the `models/` folder.
 
 ## Running Tests
 

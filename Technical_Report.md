@@ -23,9 +23,20 @@ The VAE extends the AE by introducing a probabilistic latent space.
 ## 3. Latent Space Behavior Analysis
 By plotting the encoded representations in a 2D scatter plot:
 - **AE Latent Space:** Shows tightly clustered data points with potentially large gaps between different classes. Interpolating between points often leads to meaningless, noisy images.
+![AE Latent Space](plots/AE-LatentSpace.png)
+
 - **VAE Latent Space:** Displays a smooth, continuous distribution clustered around the origin $(0,0)$. The VAE explicitly encourages overlap between similar classes, enabling smooth interpolations where transitioning between two latent points creates a sequence of logically morphing images.
+![VAE Latent Space](plots/VAE-LatentSpace.png)
 
 ## 4. Results and Insights (Expected)
+- **Training Loss:**
+![AE Loss](plots/AE-Loss.png)
+![VAE Loss](plots/VAE-Loss.png)
+
 - **Reconstruction:** Both models succeed in reconstructing the original inputs, successfully learning the core features of the provided image dataset.
+![AE Reconstruction](plots/AE-Reconstruction.png)
+![VAE Reconstruction](plots/VAE-Reconstruction.png)
+
 - **Generation:** Sampling random vectors from a standard normal distribution and feeding them through the VAE decoder yields entirely new images that resemble the training distribution. The AE decoder, conversely, produces nonsensical outputs when fed random vectors, emphasizing its lack of generative capability.
+![VAE Generated Samples](plots/VAE-GeneratedSamples.png)
 - **Denoising:** When Gaussian noise is added to the inputs, both models demonstrate an innate ability to denoise. Since they are forced to bottleneck the information, they discard the high-frequency noise and reconstruct the underlying core structures, serving as effective non-linear denoising filters.

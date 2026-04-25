@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def get_dataset(data_dir, batch_size=32, image_size=(64, 64), validation_split=0.2, seed=123):
+def get_dataset(data_dir, batch_size=32, image_size=(64, 64), validation_split=0.2, seed=123, limit_fraction=1.0):
     """
     Loads images from the given directory and returns train and validation tf.data.Datasets.
     """
@@ -32,6 +32,14 @@ def get_dataset(data_dir, batch_size=32, image_size=(64, 64), validation_split=0
     # We map x -> (x, x) because autoencoder tries to predict input from input
     train_ds = train_ds.map(lambda x: (normalization_layer(x), normalization_layer(x)))
     val_ds = val_ds.map(lambda x: (normalization_layer(x), normalization_layer(x)))
+
+    if limit_fraction < 1.0:
+        train_batches = tf.data.experimental.cardinality(train_ds).numpy()
+        val_batches = tf.data.experimental.cardinality(val_ds).numpy()
+        if train_batches > 0:
+            train_ds = train_ds.take(int(train_batches * limit_fraction))
+        if val_batches > 0:
+            val_ds = val_ds.take(int(val_batches * limit_fraction))
 
     # Prefetch for performance
     AUTOTUNE = tf.data.AUTOTUNE
